@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Holi</title>
+
+<style>
+body{
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+    text-align:center;
+    overflow-x:hidden;
+    background: radial-gradient(circle at top,#ff9933,#ff4081,#7b1fa2,#1a237e);
+    color:white;
+}
+
+h1{
+    font-size:38px;
+    margin-top:20px;
+    animation: glow 1.5s infinite alternate;
+}
+
+@keyframes glow{
+    from{ text-shadow:0 0 10px #fff,0 0 20px #ff0;}
+    to{ text-shadow:0 0 20px #fff,0 0 40px #ff4081;}
+}
+
+.sender{
+    font-size:22px;
+    margin-top:10px;
+    font-weight:bold;
+    color:#ffe082;
+}
+
+img{
+    width:90%;
+    max-width:420px;
+    border-radius:20px;
+    margin:20px 0;
+    box-shadow:0 0 25px rgba(255,255,255,0.6);
+}
+
+input{
+    padding:12px;
+    width:80%;
+    max-width:300px;
+    border:none;
+    border-radius:25px;
+    text-align:center;
+    font-size:16px;
+}
+
+button{
+    margin-top:15px;
+    padding:14px 25px;
+    border:none;
+    border-radius:30px;
+    font-weight:bold;
+    font-size:16px;
+    cursor:pointer;
+}
+
+.whatsapp-btn{
+    background:#25D366;
+    color:white;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    box-shadow:0 0 15px rgba(0,0,0,0.4);
+}
+
+.whatsapp-btn img{
+    width:22px;
+}
+
+/* Firework */
+.fire{
+    position:fixed;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    pointer-events:none;
+    animation:explode 1.2s linear forwards;
+}
+
+@keyframes explode{
+    from{transform:translate(0,0);opacity:1;}
+    to{transform:translate(var(--x),var(--y));opacity:0;}
+}
+</style>
+</head>
+<body>
+
+<h1>🌸 Happy Holi 🌸</h1>
+<div id="senderText" class="sender"></div>
+
+<img src="holi.gif" alt="Holi">
+
+<br>
+<input type="text" id="nameInput" placeholder="Apna naam likhiye">
+<br>
+
+<button class="whatsapp-btn" onclick="shareWhatsApp()">
+<img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg">
+Share on WhatsApp
+</button>
+
+<!-- DJ Music -->
+<audio id="bgMusic" src="holi.mp3" loop></audio>
+
+<script>
+
+// Auto play after first touch
+window.addEventListener("click", function(){
+    document.getElementById("bgMusic").play();
+}, {once:true});
+
+// URL name
+const params = new URLSearchParams(window.location.search);
+const sender = params.get("name");
+
+if(sender){
+    document.getElementById("senderText").innerHTML =
+    "💐 Happy Holi from <br><span style='font-size:26px'>" 
+    + sender + "</span> 🎨";
+
+    startFireworks();
+    setTimeout(()=>{ document.getElementById("bgMusic").play(); },500);
+}
+
+// WhatsApp Share
+function shareWhatsApp(){
+    const name = document.getElementById("nameInput").value.trim();
+
+    if(name === ""){
+        alert("Kripya apna naam likhiye!");
+        return;
+    }
+
+    const baseURL = window.location.origin + window.location.pathname;
+    const finalURL = baseURL + "?name=" + encodeURIComponent(name);
+
+    const message = "🌸 Happy Holi from " + name + 
+    " 🎨\nRangon bhari shubhkamnayein!\n" + finalURL;
+
+    const whatsappURL = "https://wa.me/?text=" + encodeURIComponent(message);
+    window.open(whatsappURL, "_blank");
+}
+
+/* 3x Fireworks */
+function startFireworks(){
+    setInterval(()=>{
+        for(let i=0;i<75;i++){
+            let particle=document.createElement("div");
+            particle.className="fire";
+            document.body.appendChild(particle);
+
+            let x=(Math.random()-0.5)*600+"px";
+            let y=(Math.random()-0.5)*600+"px";
+
+            particle.style.left=Math.random()*window.innerWidth+"px";
+            particle.style.top=Math.random()*window.innerHeight/2+"px";
+            particle.style.background="hsl("+Math.random()*360+",100%,50%)";
+            particle.style.setProperty("--x",x);
+            particle.style.setProperty("--y",y);
+
+            setTimeout(()=>particle.remove(),1200);
+        }
+    },800);
+}
+
+</script>
+
+</body>
+</html>
+<script>
+  atOptions = {
+    'key' : '732cab52c89735ea29a77a54e958466b',
+    'format' : 'iframe',
+    'height' : 50,
+    'width' : 320,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/732cab52c89735ea29a77a54e958466b/invoke.js"></script>
